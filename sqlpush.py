@@ -70,7 +70,9 @@ try:
                         conn.commit()
                         res = cur.fetchone()
                         if res:
-                            s = '''INSERT INTO push (user, network, `window`, type, nick, message) VALUES (%s, %s, %s, %s, %s, %s);'''
+                            s = '''INSERT INTO inbound (user, network, `window`, type, nick, message) VALUES (%s, %s, %s, %s, %s, %s);'''
+                            cur.execute(s, (res['user'], res['network'], res['window'], 'msg', res['nick'], ' '.join(tokens[2:])))
+                            s = '''INSERT INTO inbound_log (user, network, `window`, type, nick, message) VALUES (%s, %s, %s, %s, %s, %s);'''
                             cur.execute(s, (res['user'], res['network'], res['window'], 'msg', res['nick'], ' '.join(tokens[2:])))
                         else:
                             tp.push('no such message')
@@ -91,3 +93,4 @@ try:
                 sleep(5)
 finally:
     conn.close()
+

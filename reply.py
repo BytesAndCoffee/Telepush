@@ -32,6 +32,7 @@ class Message:
 
 def consume(message: dict, update_id: int) -> Message:
     chat = Chat(**message['chat'])
+    message['from'].pop('is_premium', None)
     user = User(**message['from'])
     return Message(
         chat,

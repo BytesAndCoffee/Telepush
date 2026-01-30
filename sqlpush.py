@@ -45,7 +45,7 @@ try:
                     if msg.text.startswith('context'):
                         tokens = msg.text.split()
                         s = '''SELECT * FROM logs WHERE id = %s;'''
-                        cur.execute(s, tokens[1])
+                        cur.execute(s, (tokens[1],))
                         conn.commit()
                         res = cur.fetchone()
                         if res:
@@ -66,7 +66,7 @@ try:
                     elif msg.text.startswith('reply'):
                         tokens = msg.text.split()
                         s = '''SELECT * FROM logs WHERE id = %s;'''
-                        cur.execute(s, tokens[1])
+                        cur.execute(s, (tokens[1],))
                         conn.commit()
                         res = cur.fetchone()
                         if res:
